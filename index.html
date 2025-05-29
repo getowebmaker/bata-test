@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GET DOXXED</title>
+  <title>Your Info</title>
   <style>
     body {
       background: #121212;
       color: #00ff99;
       font-family: monospace, monospace;
       padding: 2rem;
-      max-width: 600px;
+      max-width: 700px;
       margin: auto;
     }
     h1 {
@@ -24,15 +24,27 @@
       font-weight: bold;
       color: #33ff99;
     }
+    #warn {
+      color: #ff0066;
+      font-style: italic;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <h1>Your Info (No Logs, No Saves!)</h1>
+  <h1>Your Info </h1>
   <p><span class="label">IP Address:</span> <span id="ip">Loading...</span></p>
   <p><span class="label">User Agent:</span> <span id="agent"></span></p>
   <p><span class="label">Platform:</span> <span id="platform"></span></p>
   <p><span class="label">Language:</span> <span id="lang"></span></p>
   <p><span class="label">Screen Resolution:</span> <span id="screen"></span></p>
+  <p id="warn">Click anywhere to start background music if it doesn't auto-play.</p>
+
+  <!-- Background Music -->
+  <audio id="bgAudio" autoplay loop>
+    <source src="audio.mp3" type="audio/mpeg">
+    Your browser does not support audio.
+  </audio>
 
   <script>
     // System info from browser
@@ -41,15 +53,27 @@
     document.getElementById("lang").textContent = navigator.language;
     document.getElementById("screen").textContent = `${screen.width} x ${screen.height}`;
 
-    // Get IP via ipify (public API)
+    // Get IP using public API
     fetch("https://api64.ipify.org?format=json")
       .then(res => res.json())
       .then(data => {
         document.getElementById("ip").textContent = data.ip;
       })
       .catch(() => {
-        document.getElementById("ip").textContent = "Could not get IP";
+        document.getElementById("ip").textContent = "Could not fetch IP";
       });
+
+    // Handle autoplay restrictions
+    const audio = document.getElementById("bgAudio");
+    audio.play().catch(() => {
+      // Autoplay blocked - wait for user interaction
+      console.log("Autoplay blocked");
+    });
+
+    // Allow play on first click
+    window.addEventListener("click", () => {
+      audio.play();
+    }, { once: true });
   </script>
 </body>
 </html>
