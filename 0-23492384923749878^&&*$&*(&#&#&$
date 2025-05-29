@@ -2,47 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GET DOXED</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GET DOXXED</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #1e1e1e;
+      background: #121212;
       color: #00ff99;
+      font-family: monospace, monospace;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
     }
-    h1 { color: #fff; }
-    .info { margin-top: 20px; }
-    .label { font-weight: bold; }
+    h1 {
+      color: #00cc77;
+      text-align: center;
+    }
+    p {
+      margin: 0.5rem 0;
+    }
+    .label {
+      font-weight: bold;
+      color: #33ff99;
+    }
   </style>
 </head>
 <body>
-  <h1>Your Info (Nothing is stored!)</h1>
-  <div class="info">
-    <p><span class="label">IP Address:</span> <span id="ip">Loading...</span></p>
-    <p><span class="label">Device:</span> <span id="device">Loading...</span></p>
-    <p><span class="label">Browser:</span> <span id="browser">Loading...</span></p>
-    <p><span class="label">Platform:</span> <span id="platform">Loading...</span></p>
-    <p><span class="label">Language:</span> <span id="language">Loading...</span></p>
-    <p><span class="label">Screen Resolution:</span> <span id="screen">Loading...</span></p>
-  </div>
+  <h1>Your Info (No Logs, No Saves!)</h1>
+  <p><span class="label">IP Address:</span> <span id="ip">Loading...</span></p>
+  <p><span class="label">User Agent:</span> <span id="agent"></span></p>
+  <p><span class="label">Platform:</span> <span id="platform"></span></p>
+  <p><span class="label">Language:</span> <span id="lang"></span></p>
+  <p><span class="label">Screen Resolution:</span> <span id="screen"></span></p>
 
   <script>
-    // Show basic system info
-    document.getElementById("device").textContent = navigator.userAgent;
-    document.getElementById("browser").textContent = navigator.appName;
+    // System info from browser
+    document.getElementById("agent").textContent = navigator.userAgent;
     document.getElementById("platform").textContent = navigator.platform;
-    document.getElementById("language").textContent = navigator.language;
+    document.getElementById("lang").textContent = navigator.language;
     document.getElementById("screen").textContent = `${screen.width} x ${screen.height}`;
 
-    // Get public IP without storing/logging using ipify (no API key needed)
+    // Get IP via ipify (public API)
     fetch("https://api64.ipify.org?format=json")
       .then(res => res.json())
       .then(data => {
         document.getElementById("ip").textContent = data.ip;
       })
       .catch(() => {
-        document.getElementById("ip").textContent = "Error fetching IP";
+        document.getElementById("ip").textContent = "Could not get IP";
       });
   </script>
 </body>
