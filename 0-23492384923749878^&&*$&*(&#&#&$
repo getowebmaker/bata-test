@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GET DOXED</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #1e1e1e;
+      color: #00ff99;
+    }
+    h1 { color: #fff; }
+    .info { margin-top: 20px; }
+    .label { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Your Info (Nothing is stored!)</h1>
+  <div class="info">
+    <p><span class="label">IP Address:</span> <span id="ip">Loading...</span></p>
+    <p><span class="label">Device:</span> <span id="device">Loading...</span></p>
+    <p><span class="label">Browser:</span> <span id="browser">Loading...</span></p>
+    <p><span class="label">Platform:</span> <span id="platform">Loading...</span></p>
+    <p><span class="label">Language:</span> <span id="language">Loading...</span></p>
+    <p><span class="label">Screen Resolution:</span> <span id="screen">Loading...</span></p>
+  </div>
+
+  <script>
+    // Show basic system info
+    document.getElementById("device").textContent = navigator.userAgent;
+    document.getElementById("browser").textContent = navigator.appName;
+    document.getElementById("platform").textContent = navigator.platform;
+    document.getElementById("language").textContent = navigator.language;
+    document.getElementById("screen").textContent = `${screen.width} x ${screen.height}`;
+
+    // Get public IP without storing/logging using ipify (no API key needed)
+    fetch("https://api64.ipify.org?format=json")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("ip").textContent = data.ip;
+      })
+      .catch(() => {
+        document.getElementById("ip").textContent = "Error fetching IP";
+      });
+  </script>
+</body>
+</html>
